@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.OrderMapper">
+
+    <!--存储order信息-->
+    <insert id="addOrder" parameterType="order">
+        insert into `order` (order_Number, good_total_price,delivery_price,total_price, u_id, s_id, a_id, create_time)
+        VALUES (#{orderNumber},#{goodTotalPrice},#{deliveryPrice},#{totalPrice},#{uid},#{sid},#{aid},#{createTime})
+    </insert>
+
+    <!--根据订单号查询订单-->
+    <select id="findOrderByOrderNumber" resultType="order">
+        select * from `order` where order_Number = #{orderNumber}
+    </select>
+
+    <!--根据oid获取订单信息-->
+    <select id="findOrderByOid" resultType="order">
+        select * from `order` where o_id = #{oid}
+    </select>
+
+    <!--存储orderGood信息-->
+    <insert id="addOrderGood" parameterType="orderGood">
+        insert into order_good (o_id, g_id, count) VALUES (#{oid},#{gid},#{count})
+    </insert>
+
+    <!--根据uid获取所有的order-->
+    <select id="findAllOrdersByUid" resultType="order">
+        select * from `order` where u_id = #{uid} order by create_time desc
+    </select>
+
+    <!--根据oid获取该订单所有的good-->
+    <select id="findAllGoodsByOid" resultType="orderGood">
+        select * from order_good where o_id = #{oid}
+    </select>
+
+    <!--根据oid和gid查询对应的order_good记录的count-->
+    <select id="findCountByOidAndGid">
+        select * from order_good where g_id = #{gid} and o_id = #{oid}
+    </select>
+
+    <!--获取所有待骑手接单（orderStat为2）的订单-->
+    <select id="findOrderByOrderStat" resultType="order">
+        select * from `order` where order_Stat = #{orderStat}
+    </select>
+
+    <!--获取shop的对应状态所有订单的数量-->
+    <select id="getOrderCountBySidAndStat" resultType="_int">
+        select count(*) from `order` where s_id = #{sid} and order_Stat = #{orderStat}
+    </select>
+
+    <!--分页获取sid对应的新订单-->
+    <select id="findAllOrderBySidAndStat" resultType="order">
+        select * from `order` where s_id = #{sid} and order_Stat = #{orderStat} limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--获取sid的所有已接订单的数量-->
+    <select id="getOldOrderCountBySid" resultType="_int">
+        select count(*) from `order` where s_id = #{sid} and order_Stat in (2,3,4)
+    </select>
+
+    <!--分页获取sid对应的旧订单-->
+    <select id="findAllOldOrderBySid" resultType="order">
+        select * from `order` where s_id = #{sid} and order_Stat in (2,3,4) limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--商家接受订单-->
+    <update id="shopPickOrder" parameterType="String">
+        update `order` set order_Stat = 2,order_time = #{orderTime} where o_id = #{oid}
+    </update>
+
+    <!--骑手接受订单-->
+    <update id="pickOrderByDid" parameterType="String">
+        update `order` set order_Stat = 3,d_id = #{did},pick_time = #{pickTime} where o_id = #{oid}
+    </update>
+
+    <!--获取骑手所接的单-->
+    <select id="findAllOrdersByDid" resultType="order">
+        select * from `order` where d_id = #{did}
+    </select>
+
+    <!--骑手确认订单送达-->
+    <update id="deliverySuccess" parameterType="String">
+        update `order` set order_Stat = 4,arrive_time = #{arriveTime} where o_id = #{oid}
+    </update>
+
+
+
+
+</mapper>

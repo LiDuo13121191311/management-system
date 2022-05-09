@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.ShopManagerMapper">
+
+    <!--根据商家用户名查询是否存在-->
+    <select id="findShopManagerByUsername" resultType="shopManager">
+        select * from shop_manager where user_name = #{username}
+    </select>
+
+    <!--根据商家身份证号查询是否存在-->
+    <select id="findShopManagerByIdentityNumber" resultType="shopManager">
+        select * from shop_manager where identity_number = #{identityNumber}
+    </select>
+
+    <!--根据手机号查询是否存在-->
+    <select id="findShopManagerByPhone" resultType="shopManager">
+        select * from shop_manager where phone = #{phone}
+    </select>
+
+    <!--根据smid查找店长信息-->
+    <select id="findShopManagerBysmid" resultType="shopManager">
+        select * from shop_manager where s_m_id = #{smid}
+    </select>
+
+    <!--新增店铺管理员-->
+    <insert id="shopManagerRegister" parameterType="shopManager">
+        insert into shop_manager(user_name, password, phone, identity_number, name) values (#{username},#{password},#{phone},#{identityNumber},#{name})
+    </insert>
+
+    <!--获取店铺管理人员总数-->
+    <select id="getShopManagerCount" resultType="_int">
+        select count(*) from shop_manager
+    </select>
+
+    <!--分页获取店铺人员-->
+    <select id="findAllShopManagerByPage" resultType="shopManager">
+        select * from shop_manager limit #{startIndex},#{pageSize}
+    </select>
+
+
+
+
+</mapper>

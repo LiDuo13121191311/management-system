@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.AddressMapper">
+
+    <!--根据用户id查询所有address-->
+    <select id="listAllAddress" resultType="address">
+        select * from address where u_id = #{id}
+    </select>
+
+    <!--根据用户id修改address-->
+    <update id="updateAddressById" parameterType="address">
+        update address set name = #{name},tel = #{tel},area_code = #{areaCode},address = #{address},
+                           province = #{province},city = #{city},county = #{county} where a_id = #{aId}
+    </update>
+
+    <!--添加address-->
+    <insert id="addAddress" parameterType="addressVO">
+        insert into address(area_code, name, tel,  address, province, city, county, u_id) values (#{areaCode},#{name},#{tel},#{addressDetail},#{province},#{city},#{county},#{uid})
+    </insert>
+
+    <!--根据aid获取address-->
+    <select id="findAddressByAid" resultType="address">
+        select * from address where a_id = #{aid}
+    </select>
+</mapper>

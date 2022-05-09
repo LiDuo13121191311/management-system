@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.GoodMapper">
+    <!--根据gid获取good-->
+    <select id="findGoodByGid" resultType="good">
+        select * from good where g_id = #{gid}
+    </select>
+
+    <!--根据商品名模糊查询-->
+    <select id="findGoodByNameLike" parameterType="String" resultType="good">
+        select * from good where good_name like concat('%',#{value},'%')
+    </select>
+
+    <!--获取对应店铺的商品总数-->
+    <select id="findGoodCountBySid" resultType="_int">
+        select count(*) from good where s_id = #{sid}
+    </select>
+
+    <!--分页获取商品-->
+    <select id="findGoodByPage" resultType="goodInfoVO">
+        select * from good where s_id = #{sid} limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--修改店铺信息-->
+    <update id="updateGoodMessage" parameterType="goodInfoVO">
+        update good set good_name = #{goodName},good_pic = #{goodPic},price = #{price},sales = #{sales},`desc` = #{desc},c_id = #{cid}
+        where g_id = #{gid}
+    </update>
+
+
+    <delete id="deleteGood" >
+        delete from good where g_id = #{gid}
+    </delete>
+
+    <!--添加新的商品-->
+    <insert id="addGoodMessage" parameterType="good">
+        insert into good (good_name, good_pic, price, c_id, s_id, `desc`) VALUES (#{goodName},#{goodPic},#{price},#{cid},#{sid},#{desc})
+    </insert>
+
+    <!--根据sid获取good-->
+    <select id="findAllGoodBySid" resultType="good">
+        select * from good where s_id = #{sid}
+    </select>
+
+    <!--增加销量-->
+    <update id="addGoodSales" parameterType="_int">
+        update good set sales = sales+#{count} where g_id = #{gid}
+    </update>
+
+</mapper>

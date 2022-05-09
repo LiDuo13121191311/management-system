@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.ShopMapper">
+    <!--查询所有在开店铺-->
+    <select id="findAllShop" resultType="shop">
+        select * from shop where stat = 1
+    </select>
+
+    <!--根据销售量降序获取店铺-->
+    <select id="findShopOrderBySales" resultType="shop">
+        select * from shop WHERE stat = 1 ORDER BY total_sales DESC limit  0,10
+    </select>
+
+
+    <!--根据sid获取所有category-->
+    <select id="findAllCategoryBySid" resultType="category">
+        select * from category where s_id = #{sid}
+    </select>
+
+    <!--根据cid获取所有的good-->
+    <select id="findAllGoodByCid" resultType="good">
+        select * from good where c_id = #{cid}
+    </select>
+
+    <!--根据sid获取到具体的店铺信息-->
+    <select id="findShopBySid" resultType="shop">
+        select * from shop where s_id = #{sid}
+    </select>
+
+    <!--根据店铺license查询店铺是否存在-->
+    <select id="findShopByLicense" resultType="shop">
+        select * from shop where license = #{license}
+    </select>
+
+    <!--增加店铺-->
+    <insert id="addShop" parameterType="shop">
+        insert into shop(logo_src, shop_name, u_id, license, delivery_cost, min_cost,  phone, address_detail)
+         values (#{logoSrc},#{shopName},#{uid},#{license},#{deliveryCost},#{minCost},#{phone},#{addressDetail})
+    </insert>
+
+    <!--根据uid获取shop-->
+    <select id="findShopByUid" resultType="shop">
+        select * from shop where u_id = #{uid}
+    </select>
+
+    <!--获得店铺（在开和冻结）总数-->
+    <select id="getShopsCount" resultType="_int">
+        select count(*) from shop where stat in (1,2)
+    </select>
+
+    <!--分页查询所有店铺-->
+    <select id="findAllShopByPage" resultType="shop">
+        select * from shop where stat in (1,2) limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--获取待办理的店铺申请总数-->
+    <select id="getShopApplyForCount" resultType="_int">
+        select count(*) from shop where stat = 0
+    </select>
+
+    <!--获取待审核的店铺-->
+    <select id="findAllShopApplyForByPage" resultType="shop">
+        select * from shop where stat  = 0 limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--保存修改的店铺信息-->
+    <update id="saveShopInfo" parameterType="shop">
+        update shop set shop_name = #{shopName},license = #{license},delivery_cost = #{deliveryCost},min_cost = #{minCost},
+                        total_sales = #{totalSales},phone = #{phone},address_detail = #{addressDetail} where s_id = #{sid}
+    </update>
+
+    <!--修改店铺状态-->
+    <update id="changeShopStat" parameterType="String">
+        update shop set stat = #{stat} where s_id = #{sid}
+    </update>
+
+    <!--同意店铺申请-->
+    <update id="agreeShopApplyFor" parameterType="String">
+        update shop set stat = 1 where s_id = #{sid}
+    </update>
+
+    <!--根据店铺名模糊查询-->
+    <select id="findShopsByShopNameLike" parameterType="String" resultType="shop">
+        select * from shop where stat = 1 and shop_name like concat('%',#{value},'%')
+    </select>
+
+    <!--修改店铺信息-->
+    <update id="updateShopMessage" parameterType="shop">
+        update shop set shop_name = #{shopName},license = #{license},logo_src = #{logoSrc},delivery_cost = #{deliveryCost},delivery_time = #{deliveryTime},min_cost = #{minCost},
+                        total_sales = #{totalSales},phone = #{phone},address_detail = #{addressDetail},`desc` = #{desc} where s_id = #{sid}
+    </update>
+
+    <!--给店铺增加销量-->
+    <update id="addTotalSales" parameterType="String">
+        update shop set total_sales = total_sales+1 where s_id = (select s_id from `order` where o_id = #{oid})
+    </update>
+</mapper>

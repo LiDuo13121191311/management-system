@@ -1,0 +1,30 @@
+  server:
+    port: 8084
+  mybatis:
+    mapper-locations: classpath:mappers/*xml
+    type-aliases-package: com.lky.project.pojo,com.lky.project.VO
+    configuration:
+      map-underscore-to-camel-case: true
+  spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      name: defaultDataSource
+      url: jdbc:mysql://localhost:3306/food?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+      username: root
+      password: 123456
+#    servlet:
+#      multipart:
+#        location: e:/BigdataProjects2019/springboot-project/pic/
+#    mvc:
+#      static-path-pattern: /**
+#    resources:
+#      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${spring.servlet.multipart.location}
+
+
+#spring.mvc.static-path-pattern: /img/**
+#spring.web.resources.static-locations: classpath:/img/
+#
+#    #图片上传设置
+#upload.photo.sufix: .jpg,.png,.gif,.jpeg
+#upload.photo.maxsize: 10240
+#upload.photo.path: /springboot-project/src/main/resources/img/

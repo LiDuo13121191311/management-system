@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.UserMapper">
+
+    <!--根据用户名获取用户信息-->
+    <select id="findUserByUsername" parameterType="String" resultType="User">
+        select * from user where username = #{username}
+    </select>
+
+    <!--根据用户手机号查找用户-->
+    <select id="findUserByPhone" parameterType="String" resultType="User">
+        select * from user where phone = #{phone}
+    </select>
+
+    <!--用户注册-->
+    <insert id="userRegister" parameterType="user">
+        insert into user (name, phone, username, password, picSrc) values (#{name},#{phone},#{username},#{password},#{picSrc})
+    </insert>
+
+    <!--根据uid获取用户-->
+    <select id="findUserByUid" resultType="user">
+        select * from user where id = #{uid}
+    </select>
+
+    <!--修改用户信息-->
+    <update id="updateUserMessage" parameterType="user">
+        update user set username = #{username},password = #{password},picSrc = #{picSrc} where id = #{id}
+    </update>
+
+    <!--根据用户名获取店家信息-->
+    <select id="findShopManagerByUsername" parameterType="String" resultType="User">
+        select * from user where username = #{username} and r_id = 2
+    </select>
+
+    <!--根据用户名获取管理员信息-->
+    <select id="findManagerByUsername" parameterType="String" resultType="User">
+        select * from user where username = #{username} and r_id = 3
+    </select>
+
+    <!--获取用户总数-->
+    <select id="getUserCount" resultType="_int">
+        select count(*) from user where r_id = 1
+    </select>
+
+    <!--分页获取所有用户-->
+    <select id="findAllUserByPage" resultType="user">
+        select * from user where r_id = 1 limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--用户增加下单量-->
+    <update id="addScore" parameterType="String">
+        update user set score = score+1 where id = (select u_id from `order` where o_id = #{oid})
+    </update>
+
+</mapper>

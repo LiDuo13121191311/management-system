@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.DeliveryMapper">
+
+    <!--根据oid获取taker-->
+    <select id="findTakerByOid" resultType="delivery">
+        select * from delivery where d_id = (select d_id from `order` where o_id = #{oid})
+    </select>
+
+    <!--根据phone获取taker-->
+    <select id="findDeliveryByPhone" resultType="delivery">
+        select * from delivery where phone = #{phone}
+    </select>
+
+    <!--获取骑手总数-->
+    <select id="getRidersCount" resultType="_int">
+        select count(*) from delivery
+    </select>
+
+    <!--分页获取骑手-->
+    <select id="findAllRidersByPage" resultType="delivery">
+        select * from delivery limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--根据did查找骑手信息-->
+    <select id="findDeliveryByDid" resultType="delivery">
+        select * from delivery where d_id = #{did}
+    </select>
+
+    <!--根据oid获取did，增加骑手接单量-->
+    <update id="addTotalNum" parameterType="String">
+        update delivery set total_num = total_num+1 where d_id = (select d_id from `order` where o_id = #{oid})
+    </update>
+
+</mapper>

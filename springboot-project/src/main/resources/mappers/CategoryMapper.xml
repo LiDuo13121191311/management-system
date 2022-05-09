@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lky.project.mapper.CategoryMapper">
+    <delete id="deleteCategory">
+        delete from category where c_id = #{cid}
+    </delete>
+
+    <!--根据cid获取类别-->
+    <select id="findCategoryByCid" resultType="category">
+        select * from category where c_id = #{cid}
+    </select>
+
+    <!--获取所有类别-->
+    <select id="findAllCategory" resultType="category">
+        select * from category
+    </select>
+
+    <!--获取类别数量-->
+    <select id="getCategoryCountBySid" resultType="Integer">
+        select count(*) from category where s_id = #{sid}
+    </select>
+
+    <!--分页获取类别-->
+    <select id="findCategoriesByPage" resultType="category">
+        select * from category where s_id = #{sid} limit #{startIndex},#{pageSize}
+    </select>
+
+    <!--根据sid获取对应的商品类别-->
+    <select id="getAllCategoryBySid" resultType="category">
+        select * from category where s_id = #{sid}
+    </select>
+
+    <!--查找类别名是否存在-->
+    <select id="findCategoryNameBySid" resultType="category">
+        select * from category where category_name = #{categoryName} and s_id = #{sid}
+    </select>
+
+    <!--保存修改后的类别-->
+    <update id="updateCategoryMessage" parameterType="category">
+        update category set category_name = #{categoryName} where c_id = #{cid}
+    </update>
+
+    <!--新增类别-->
+    <insert id="addCategoryMessage" parameterType="category">
+        insert into category(category_name, s_id) VALUES (#{categoryName},#{sid})
+    </insert>
+
+</mapper>
