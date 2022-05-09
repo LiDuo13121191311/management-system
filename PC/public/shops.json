@@ -1,0 +1,44 @@
+{
+  "shops":[
+    {
+      "sid": 1,
+      "name":"蜜雪冰城",
+      "desc":"冰淇淋与茶",
+      "countMonth": 2000,
+      "minPrice":"15",
+      "deliveryCost":"3",
+      "deliveryTime":"40分钟",
+      "pic":"https://img01.yzcdn.cn/vant/ipad.jpeg"
+    },
+    {
+      "sid": 2,
+      "name":"蜜雪冰城",
+      "desc":"冰淇淋与茶",
+      "countMonth": 2000,
+      "minPrice":"15",
+      "deliveryCost":"3",
+      "deliveryTime":"40分钟",
+      "pic":"https://img01.yzcdn.cn/vant/ipad.jpeg"
+    },
+    {
+      "sid": 3,
+      "name":"蜜雪冰城",
+      "desc":"冰淇淋与茶",
+      "countMonth": 2000,
+      "minPrice":"15",
+      "deliveryCost":"3",
+      "deliveryTime":"40分钟",
+      "pic":"https://img01.yzcdn.cn/vant/ipad.jpeg"
+    },
+    {
+      "sid": 4,
+      "name":"蜜雪冰城",
+      "desc":"冰淇淋与茶",
+      "countMonth": 2000,
+      "minPrice":"15",
+      "deliveryCost":"3",
+      "deliveryTime":"40分钟",
+      "pic":"https://img01.yzcdn.cn/vant/ipad.jpeg"
+    }
+  ]
+}
